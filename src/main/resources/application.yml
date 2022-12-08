@@ -16,6 +16,18 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 30000
+  mail:
+    host: smtp.163.com
+    protocol: smtps
+    username: dwj201717@163.com
+    password: EAOCDOZKWFGRBTLH
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true
+          required: true
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -29,3 +41,7 @@ mybatis:
 #      D:/developer/workplace_idea/community/log/community.log
 #  level:
 #    com.mybbs.community: debug
+community:
+  path:
+    domain:
+      http://localhost:8080
