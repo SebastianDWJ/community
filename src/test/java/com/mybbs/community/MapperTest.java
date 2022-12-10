@@ -1,9 +1,12 @@
 package com.mybbs.community;
 
 import com.mybbs.community.dao.DiscussPostMapper;
+import com.mybbs.community.dao.LoginTicketMapper;
 import com.mybbs.community.dao.UserMapper;
 import com.mybbs.community.entity.DiscussPost;
+import com.mybbs.community.entity.LoginTicket;
 import com.mybbs.community.entity.User;
+import com.mybbs.community.util.CommunityUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -22,6 +26,8 @@ public class MapperTest implements ApplicationContextAware {
     UserMapper userMapper;
     @Autowired
     DiscussPostMapper discussPostMapper;
+    @Autowired
+    LoginTicketMapper loginTicketMapper;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
@@ -64,5 +70,19 @@ public class MapperTest implements ApplicationContextAware {
         }
         int rows = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(rows);
+    }
+
+
+    @Test
+    public void testInertLoginMapper(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setId(1);
+        loginTicket.setUserId(123);
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis()+1000*60));
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicketMapper.insertLoginTicket(loginTicket);
+        System.out.println(loginTicketMapper.selectByTicket(loginTicket.getTicket()));
+        loginTicketMapper.updateStatus(loginTicket.getTicket(),1);
     }
 }

@@ -43,5 +43,10 @@ mybatis:
 #    com.mybbs.community: debug
 community:
   path:
+    upload:
+      D:/developer/workplace_idea/community/upload
+#      D:/Download/data
     domain:
       http://localhost:8080
+
+

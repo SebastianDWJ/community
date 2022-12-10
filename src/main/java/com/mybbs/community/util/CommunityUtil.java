@@ -16,6 +16,6 @@ public class CommunityUtil {
         if(StringUtils.isBlank(key)){
             return null;
         }
-        return DigestUtils.md5DigestAsHex(generateUUID().getBytes(StandardCharsets.UTF_8));
+        return DigestUtils.md5DigestAsHex(key.getBytes());
     }
 }
