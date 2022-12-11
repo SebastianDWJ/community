@@ -4,10 +4,7 @@ import com.mybbs.community.service.AlphaService;
 import com.mybbs.community.util.CommunityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -87,5 +84,13 @@ public class AlphaController {
         System.out.println(session.getAttribute("name"));
         System.out.println(session.getAttribute("id"));
         return "get session";
+    }
+
+    @RequestMapping(value = "/ajax",method = RequestMethod.POST)
+    @ResponseBody
+    public String testAjax(String name, int age){
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtil.getJSONString(0,"操作成功");
     }
 }
