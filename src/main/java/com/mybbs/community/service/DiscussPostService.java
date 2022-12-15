@@ -2,7 +2,6 @@ package com.mybbs.community.service;
 
 import com.mybbs.community.dao.DiscussPostMapper;
 import com.mybbs.community.entity.DiscussPost;
-import com.mybbs.community.util.CommunityUtil;
 import com.mybbs.community.util.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +36,13 @@ public class DiscussPostService {
         discussPost.setContent(sensitiveFilter.filter(discussPost.getContent()));
 
         return discussPostMapper.insertDiscussPost(discussPost);
+    }
+
+    public DiscussPost findDiscussPostById(int id){
+        return discussPostMapper.selectDiscussPostById(id);
+    }
+
+    public int updateCommentCount(int id,int commentCount){
+        return discussPostMapper.updateCommentCount(id,commentCount);
     }
 }

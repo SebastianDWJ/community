@@ -4,10 +4,13 @@ import com.mybbs.community.dao.DiscussPostMapper;
 import com.mybbs.community.entity.DiscussPost;
 import com.mybbs.community.entity.Page;
 import com.mybbs.community.service.DiscussPostService;
+import com.mybbs.community.service.LikeService;
 import com.mybbs.community.service.UserService;
+import com.mybbs.community.util.CommunityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,11 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
     @Autowired
     DiscussPostService discussPostService;
     @Autowired
     UserService userService;
+    @Autowired
+    LikeService likeService;
 
     @RequestMapping(path = "/index",method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
@@ -37,6 +42,10 @@ public class HomeController {
                 Map<String,Object> map = new HashMap<>();
                 map.put("discussPost",discussPost);
                 map.put("user",userService.findUserById(discussPost.getUserId()));
+
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST,discussPost.getId());
+                map.put("likeCount",likeCount);
+
                 discussPosts.add(map);
             }
         }
@@ -44,5 +53,10 @@ public class HomeController {
 
 
         return "/index";
+    }
+
+    @GetMapping("/error")
+    public String error(){
+        return "/error/500";
     }
 }

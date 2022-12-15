@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import sun.security.krb5.internal.Ticket;
 
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
 
     @Insert({"insert into login_ticket(user_id,ticket,status,expired)" ,

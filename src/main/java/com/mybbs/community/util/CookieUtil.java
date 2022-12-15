@@ -5,10 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CookieUtil {
     public static String getValue(HttpServletRequest request, String name){
-        Cookie[] cookies = request.getCookies();
-        if (cookies==null || name==null){
+
+        if (request==null || name==null){
             throw new ArithmeticException("参数为空！");
         }
+        Cookie[] cookies = request.getCookies();
         if(cookies!=null){
             for (Cookie cookie : cookies) {
                 if(cookie.getName().equals("ticket")){
