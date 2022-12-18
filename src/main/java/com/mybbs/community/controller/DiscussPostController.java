@@ -1,9 +1,7 @@
 package com.mybbs.community.controller;
 
-import com.mybbs.community.entity.Comment;
-import com.mybbs.community.entity.DiscussPost;
-import com.mybbs.community.entity.Page;
-import com.mybbs.community.entity.User;
+import com.mybbs.community.entity.*;
+import com.mybbs.community.event.EventProducer;
 import com.mybbs.community.service.CommentService;
 import com.mybbs.community.service.DiscussPostService;
 import com.mybbs.community.service.LikeService;
@@ -32,8 +30,12 @@ public class DiscussPostController implements CommunityConstant {
 
     @Autowired
     CommentService commentService;
+
     @Autowired
     LikeService likeService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     @PostMapping("/add")
     @ResponseBody
@@ -48,6 +50,14 @@ public class DiscussPostController implements CommunityConstant {
         discussPost.setContent(content);
         discussPost.setCreateTime(new Date());
         discussPostService.addDiscussPost(discussPost);
+
+        //触发发帖事件
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(discussPost.getId());
+        eventProducer.fireEvent(event);
 
 
         //错误最后统一处理

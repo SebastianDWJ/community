@@ -2,6 +2,7 @@ package com.mybbs.community.config;
 
 import com.mybbs.community.controller.interceptor.LoginInterceptor;
 import com.mybbs.community.controller.interceptor.LoginRequiredInterceptor;
+import com.mybbs.community.controller.interceptor.MessageInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,12 +14,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     LoginInterceptor loginInterceptor;
     @Autowired
     LoginRequiredInterceptor loginRequiredInterceptor;
+    @Autowired
+    MessageInterceptor messageInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
         registry.addInterceptor(loginRequiredInterceptor)
+                .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
+        registry.addInterceptor(messageInterceptor)
                 .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
     }
 

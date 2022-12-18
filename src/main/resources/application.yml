@@ -33,6 +33,24 @@ spring:
     database: 8
     host: localhost
     port: 6379
+
+  # kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true  #是否自动提交消费者的的offset
+      auto-commit-interval: 3000 # 毫秒    =3s
+#  data:
+#    elasticsearch:
+#      cluster-name: mybbs
+#      cluster-nodes: 127.0.0.1:9300
+  elasticsearch:
+    uris: 127.0.0.1:9200
+
+
+
+# mybatis
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -53,7 +71,5 @@ community:
 #      D:/Download/data
     domain:
       http://localhost:8080
-
-
 
 

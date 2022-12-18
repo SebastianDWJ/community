@@ -1,8 +1,10 @@
 package com.mybbs.community.controller;
 
 import com.mybbs.community.annotation.LoginRequired;
+import com.mybbs.community.entity.Event;
 import com.mybbs.community.entity.Page;
 import com.mybbs.community.entity.User;
+import com.mybbs.community.event.EventProducer;
 import com.mybbs.community.service.FollowService;
 import com.mybbs.community.service.UserService;
 import com.mybbs.community.util.CommunityConstant;
@@ -22,11 +24,13 @@ import java.util.Map;
 @Controller
 public class FollowController implements CommunityConstant {
     @Autowired
-    FollowService followService;
+    private FollowService followService;
     @Autowired
-    HostHolder hostHolder;
+    private HostHolder hostHolder;
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private EventProducer eventProducer;
 
     @LoginRequired
     @PostMapping("/follow")
@@ -35,6 +39,14 @@ public class FollowController implements CommunityConstant {
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(),entityType,entityId);
+
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
 
         return CommunityUtil.getJSONString(0,"已关注");
     }
