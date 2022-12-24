@@ -47,6 +47,34 @@ spring:
 #      cluster-nodes: 127.0.0.1:9300
   elasticsearch:
     uris: 127.0.0.1:9200
+  # TaskExecutionPorperties
+  # ThreadPoolTaskScheduler
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 10
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
+  # quartz   此处设置后，在第一次运行时读取此配置文件，然后写入db，以后不再读取此配置文件
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+
 
 
 
@@ -73,3 +101,14 @@ community:
       http://localhost:8080
 
 
+wk:
+  image:
+    command: D:/developer/wkhtmltopdf/bin/wkhtmltoimage
+    storage: D:/developer/workplace_idea/community/data/wk-images
+
+
+# caffeine
+caffeine:
+  posts:
+    max-size: 15
+    expire-seconds: 180

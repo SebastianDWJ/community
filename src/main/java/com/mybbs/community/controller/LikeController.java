@@ -7,7 +7,9 @@ import com.mybbs.community.service.LikeService;
 import com.mybbs.community.util.CommunityConstant;
 import com.mybbs.community.util.CommunityUtil;
 import com.mybbs.community.util.HostHolder;
+import com.mybbs.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +25,8 @@ public class LikeController implements CommunityConstant {
     private HostHolder hostHolder;
     @Autowired
     private EventProducer eventProducer;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @PostMapping("/like")
     @ResponseBody
@@ -48,7 +52,11 @@ public class LikeController implements CommunityConstant {
             eventProducer.fireEvent(event);
         }
 
-
+        if(entityType==ENTITY_TYPE_POST){
+            //postid存到redis中,以更新帖子score
+            String redisKey = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(redisKey,discussPostId);
+        }
 
         return CommunityUtil.getJSONString(0,null,map);//map中数据会传给前端的js中的data处理
     }

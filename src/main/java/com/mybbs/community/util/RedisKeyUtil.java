@@ -9,6 +9,10 @@ public class RedisKeyUtil {
     public static final String PREFIX_KAPTCHA = "kaptcha";
     public static final String PREFIX_TICKET = "ticket";
     public static final String PREFIX_USER = "user";
+    public static final String PREFIX_UV = "uv";
+    public static final String PREFIX_DAU = "dau";
+    public static final String PREFIX_POST = "post";
+
 
     //某个实体的赞
     //like:entity:entityId -> set(userId)
@@ -44,6 +48,27 @@ public class RedisKeyUtil {
         return PREFIX_USER+SPLIT+userId;
     }
 
+    //单日UV
+    public static String getUVKey(String date){
+        return PREFIX_UV+SPLIT+date;
+    }
+    //区间UV
+    public static String getUVKey(String startDate,String endDate){
+        return PREFIX_UV+SPLIT+startDate+SPLIT+endDate;
+    }
+    //单日DAU
+    public static String getDAUKey(String date){
+        return PREFIX_DAU+SPLIT+date;
+    }
+    //区间DAU
+    public static String getDAUKey(String startDate,String endDate){
+        return PREFIX_DAU+SPLIT+startDate+SPLIT+endDate;
+    }
+
+    //需要进行评分更新的帖子id集合
+    public static String getPostScoreKey(){
+        return PREFIX_POST+SPLIT+"score";
+    }
 
 
 }

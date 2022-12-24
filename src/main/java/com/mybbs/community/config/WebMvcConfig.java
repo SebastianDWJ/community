@@ -1,5 +1,6 @@
 package com.mybbs.community.config;
 
+import com.mybbs.community.controller.interceptor.DataInterceptor;
 import com.mybbs.community.controller.interceptor.LoginInterceptor;
 import com.mybbs.community.controller.interceptor.LoginRequiredInterceptor;
 import com.mybbs.community.controller.interceptor.MessageInterceptor;
@@ -12,19 +13,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     LoginInterceptor loginInterceptor;
-    @Autowired
-    LoginRequiredInterceptor loginRequiredInterceptor;
+//    @Autowired
+//    LoginRequredInterceptor loginRequiredInterceptor;
     @Autowired
     MessageInterceptor messageInterceptor;
+    @Autowired
+    DataInterceptor dataInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
-        registry.addInterceptor(loginRequiredInterceptor)
-                .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
+//        registry.addInterceptor(loginRequiredInterceptor)
+//                .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
         registry.addInterceptor(messageInterceptor)
                 .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
+        registry.addInterceptor(dataInterceptor)
+                .excludePathPatterns("/**/*.css","/**/*.js","/**/*.jpg","/**/*jpeg","/**/*.png");
+
     }
 
 

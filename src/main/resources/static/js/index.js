@@ -5,6 +5,13 @@ $(function(){
 function publish() {
 	$("#publishModal").modal("hide");
 
+	//发送ajax请求之前，将csrf令牌设置到请求的消息头中
+	// var token = $("meta[name='_csrf']").attr("content");
+	// var header = $("meta[name='_csrf_header']").attr("content");
+	// $(document).ajaxSend(function (e,xhr,options){
+	// 	xhr.setRequestHeader(header,token);
+	// });
+
 	//获取标题和内容
 	var title = $("#recipient-name").val();
 	var content = $("#message-text").val();
@@ -16,8 +23,9 @@ function publish() {
 			data = $.parseJSON(data);
 			//提示框显示消息
 			$("#hintBody").text(data.msg);
-			//显示2s后自动隐藏
+			//显示提示框
 			$("#hintModal").modal("show");
+			//显示2s后自动隐藏
 			setTimeout(function(){
 				$("#hintModal").modal("hide");
 				//刷新页面
